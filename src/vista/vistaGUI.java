@@ -23,8 +23,13 @@ public class vistaGUI extends JFrame {
     public JTextField txtID = new JTextField();
     public boolean guardarSoldado = false;
     public boolean modificarSoldado = false;
+    public JButton btnVerEstado;
+    public JButton btnRealizarAccion;
+
     //public JTable tablaSoldados = new JTable();
+    public JButton btnAsignarMision;
     public tablaSoldados tablaSoldados = new tablaSoldados();
+    public tablaGestion tablaGestion = new tablaGestion();
 
     //Tabla Operaciones 
     public vistaGUI() {
@@ -34,7 +39,7 @@ public class vistaGUI extends JFrame {
         JLabel mensaje = new JLabel("...", SwingConstants.CENTER);
         
         botonesGestion botonesGestion = new botonesGestion();
-        tablaGestion tablaGestion = new tablaGestion();
+        
 
         // Configuración de la ventana principal
         setTitle("Sistema de Gestión de Rangos Militares");
@@ -148,29 +153,29 @@ public class vistaGUI extends JFrame {
         panelFondo.add(imagenFondo1);
 
 // Botones de operaciones
-        JButton btnAsignarMision = new JButton("Asignar misión a un soldado");
-        btnAsignarMision.setBounds(350, 50, 300, 43);
-        btnAsignarMision.setFont(new Font("Arial", Font.PLAIN, 14));
-        btnAsignarMision.setBackground(Color.DARK_GRAY);
-        btnAsignarMision.setForeground(Color.white);
-        btnAsignarMision.setBorder(null);
-        btnAsignarMision.setHorizontalAlignment(SwingConstants.CENTER);
+        this.btnAsignarMision = new JButton("Asignar misión a un soldado");
+        this.btnAsignarMision.setBounds(350, 50, 300, 43);
+        this.btnAsignarMision.setFont(new Font("Arial", Font.PLAIN, 14));
+        this.btnAsignarMision.setBackground(Color.DARK_GRAY);
+        this.btnAsignarMision.setForeground(Color.white);
+        this.btnAsignarMision.setBorder(null);
+        this.btnAsignarMision.setHorizontalAlignment(SwingConstants.CENTER);
 
-        JButton btnVerEstado = new JButton("Ver estado del soldado");
-        btnVerEstado.setBounds(350, 110, 300, 43);
-        btnVerEstado.setFont(new Font("Arial", Font.PLAIN, 14));
-        btnVerEstado.setBackground(Color.DARK_GRAY);
-        btnVerEstado.setForeground(Color.white);
-        btnVerEstado.setBorder(null);
-        btnVerEstado.setHorizontalAlignment(SwingConstants.CENTER);
+        this.btnVerEstado = new JButton("Ver estado del soldado");
+        this.btnVerEstado.setBounds(350, 110, 300, 43);
+        this.btnVerEstado.setFont(new Font("Arial", Font.PLAIN, 14));
+        this.btnVerEstado.setBackground(Color.DARK_GRAY);
+        this.btnVerEstado.setForeground(Color.white);
+        this.btnVerEstado.setBorder(null);
+        this.btnVerEstado.setHorizontalAlignment(SwingConstants.CENTER);
 
-        JButton btnRealizarAccion = new JButton("Acciones");
-        btnRealizarAccion.setBounds(350, 150, 300, 43);
-        btnRealizarAccion.setFont(new Font("Arial", Font.PLAIN, 14));
-        btnRealizarAccion.setBackground(Color.DARK_GRAY);
-        btnRealizarAccion.setForeground(Color.white);
-        btnRealizarAccion.setBorder(null);
-        btnRealizarAccion.setHorizontalAlignment(SwingConstants.CENTER);
+        this.btnRealizarAccion = new JButton("Acciones");
+        this.btnRealizarAccion.setBounds(350, 150, 300, 43);
+        this.btnRealizarAccion.setFont(new Font("Arial", Font.PLAIN, 14));
+        this.btnRealizarAccion.setBackground(Color.DARK_GRAY);
+        this.btnRealizarAccion.setForeground(Color.white);
+        this.btnRealizarAccion.setBorder(null);
+        this.btnRealizarAccion.setHorizontalAlignment(SwingConstants.CENTER);
 
         JButton btnSalir = new JButton("Volver");
         btnSalir.setBounds(350, 150, 300, 43);
@@ -193,6 +198,7 @@ public class vistaGUI extends JFrame {
         panelOperaciones.add(panelBtnsOperaciones);
         panelLateralOper.add(tituloTablaO);
         panelLateralOper.add(tablaGestion.getTablaOperaciones());
+        panelLateralOper.add(imagenFondo2);
         panelOperaciones.add(imagenFondo2);
 
         //Temporizador de la pantalla de carga antes de entrar a la App
