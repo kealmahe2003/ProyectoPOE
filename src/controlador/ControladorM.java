@@ -2,17 +2,15 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-
-import vista.vistaGUI;
 import modelo.Funciones;
-import modelo.Persona;
 import modelo.Soldado;
+import vista.gestion_config.tablaGestion;
 import vista.inicio_config.tablaSoldados;
+import vista.vistaGUI;
 
 public class ControladorM {
 
@@ -22,6 +20,7 @@ public class ControladorM {
     public ControladorM() {
         this.vista = new vistaGUI();
         this.modelo = new Funciones();
+
         // Registra el ActionListener para el botón
         // Registra el ActionListener para el botón
         this.vista.btnAgregar.addActionListener(new ActionListener() {
@@ -68,6 +67,7 @@ public class ControladorM {
                     // Mostrar un mensaje de confirmación final
                     JOptionPane.showMessageDialog(vista, respuesta);
                     actualizarLista(vista.tablaSoldados);
+                    actualizarListaOperaciones(vista.tablaGestion);
                 }
             }
         });
@@ -104,6 +104,7 @@ public class ControladorM {
                     // Mostrar un mensaje de confirmación final
                     JOptionPane.showMessageDialog(vista, respuesta);
                     actualizarLista(vista.tablaSoldados);
+                    actualizarListaOperaciones(vista.tablaGestion);
                 }
             }
         });
@@ -120,6 +121,7 @@ public class ControladorM {
                 // Mostrar un mensaje de confirmación final
                 JOptionPane.showMessageDialog(vista, respuesta);
                 actualizarLista(vista.tablaSoldados);
+                actualizarListaOperaciones(vista.tablaGestion);
             }
         });
 
@@ -132,19 +134,178 @@ public class ControladorM {
                 // Mostrar un mensaje de confirmación final
                 JOptionPane.showMessageDialog(vista, respuesta);
                 actualizarLista(vista.tablaSoldados);
+                actualizarListaOperaciones(vista.tablaGestion);
+            }
+        });
+
+        this.vista.btnAsignarMision.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Solicitar el ID del soldado a asignar la misión
+                String id = JOptionPane.showInputDialog(vista, "Ingrese el ID del soldado a asignar la misión:");
+
+                // Buscar el soldado por ID
+                Soldado soldado = modelo.buscarID(id);
+                if (soldado == null) {
+                    JOptionPane.showMessageDialog(vista, "Soldado no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Verificar el rango del soldado y asignar la misión según su rango
+                String rango = soldado.getRango();
+
+                if ("Soldado Raso".equals(rango)) {
+                    JOptionPane.showMessageDialog(vista, "El Soldado Raso no puede recibir misiones directamente.");
+                    return;
+                }
+
+                String mision = JOptionPane.showInputDialog(vista, "Ingrese la misión:");
+                String cualidad = null;
+
+                switch (rango) {
+                    case "Teniente" -> {
+                        cualidad = JOptionPane.showInputDialog(vista, "Ingrese la unidad a la que pertenece (en números):");
+                    }
+                    case "Capitán" -> {
+                        cualidad = JOptionPane.showInputDialog(vista, "Ingrese la cantidad de soldados a su cargo:");
+                    }
+                    case "Coronel" -> {
+                        cualidad = JOptionPane.showInputDialog(vista, "Ingrese la estrategia a implementar:");
+                    }
+                }
+
+                if (cualidad != null && mision != null) {
+                    // Llamar al modelo para asignar la misión al soldado
+                    String respuesta = modelo.asignarMision(id, mision, cualidad);
+
+                    // Mostrar un mensaje de confirmación final
+                    JOptionPane.showMessageDialog(vista, respuesta);
+                    actualizarLista(vista.tablaSoldados);
+                    actualizarListaOperaciones(vista.tablaGestion);
+                }
+            }
+        });
+        this.vista.btnVerEstado.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Solicitar el ID del soldado a ver el estado
+                String id = JOptionPane.showInputDialog(vista, "Ingrese el ID del soldado a ver el estado:");
+
+                // Llamar al modelo para ver el estado del soldado
+                String respuesta = modelo.verEstado(id);
+
+                // Mostrar un mensaje de confirmación final
+                JOptionPane.showMessageDialog(vista, respuesta);
+            }
+        });
+
+        this.vista.btnRealizarAccion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    // Solicitar el ID del soldado a realizar la acción
+                    String id = JOptionPane.showInputDialog(vista, "Ingrese el ID del soldado a realizar la acción:").trim();
+                    if (id != null && !id.isEmpty()) {
+                        // Buscar el soldado por ID
+                        Soldado soldado = modelo.buscarID(id);
+                        if (soldado == null) {
+                            JOptionPane.showMessageDialog(vista, "Soldado no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+
+                        // Verificar el rango del soldado y mostrar las acciones correspondientes
+                        String rango = soldado.getRango();
+                        JComboBox<String> ingresarAccion;
+                        switch (rango) {
+                            case "Soldado Raso" ->
+                                ingresarAccion = new JComboBox<>(new String[]{"Patrullar", "Saludar", "Retirarse"});
+                            case "Teniente" ->
+                                ingresarAccion = new JComboBox<>(new String[]{"Regañar", "Supervisar", "???"});
+                            case "Capitán" ->
+                                ingresarAccion = new JComboBox<>(new String[]{"Regañar", "Sondear", "Misión"});
+                            case "Coronel" ->
+                                ingresarAccion = new JComboBox<>(new String[]{"Saludar", "Regañar", "Desfile", "Premio o Castigo"});
+                            default -> {
+                                JOptionPane.showMessageDialog(vista, "Rango no reconocido.", "Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+                        }
+                        boolean enviar = true;
+                        Object[] message = {"Accion a realizar:", ingresarAccion};
+                        int option = JOptionPane.showConfirmDialog(vista, message, "Realizar accion", JOptionPane.OK_CANCEL_OPTION);
+                        if (option == JOptionPane.OK_OPTION && enviar==true) {
+                            // Obtener la acción seleccionada
+                            String accion = ingresarAccion.getSelectedItem().toString();
+                            // Manejar la acción de "Mision" para el Capitán
+                            if ("Misión".equals(accion) && "Capitán".equals(rango)) {
+                                JTextField objetivoField = new JTextField();
+                                JTextField estrategiaField = new JTextField();
+                                Object[] misionMessage = {
+                                    "Ingrese el objetivo del rescate:", objetivoField,
+                                    "Ingrese la estrategia:", estrategiaField
+                                };
+                                int misionOption = JOptionPane.showConfirmDialog(vista, misionMessage, "Planificación de Misión", JOptionPane.OK_CANCEL_OPTION);
+                                if (misionOption == JOptionPane.OK_OPTION) {
+                                    String objetivo = objetivoField.getText();
+                                    String estrategia = estrategiaField.getText();
+                                    if (objetivo.isEmpty() || estrategia.isEmpty()) {
+                                        JOptionPane.showMessageDialog(vista, "Debe ingresar todos los datos.", "Error", JOptionPane.ERROR_MESSAGE);
+                                        return;
+                                    }
+                                    accion = "Misión:" + objetivo + ":" + estrategia;
+                                } else {
+                                    return;
+                                }
+                            } // Manejar la acción de "Sondear" para el Capitán
+                            else if ("Sondear".equals(accion) && "Capitán".equals(rango)) {
+                                // Aquí puedes agregar cualquier lógica adicional si es necesario
+                                accion = "Sondear";
+                            } // Manejar la acción de "Regañar" para el Capitán
+                            else if ("Regañar".equals(accion) && "Capitán".equals(rango)) {
+                                String idSoldado = JOptionPane.showInputDialog(vista, "Ingrese el ID del soldado a regañar:").trim();
+                                if (idSoldado == null || idSoldado.isEmpty()) {
+                                    JOptionPane.showMessageDialog(vista, "Debe ingresar el ID del soldado a regañar.", "Error", JOptionPane.ERROR_MESSAGE);
+                                    return;
+                                }
+                                accion = "Regañar:" + idSoldado;
+
+                            }else {
+                                return;
+                            }
+                            // Llamar al modelo para realizar la acción del soldado
+                            String respuesta = modelo.realizarAccion(id, accion);
+                            enviar = false;
+                            // Mostrar un mensaje de confirmación final
+                            JOptionPane.showMessageDialog(vista, respuesta);
+                            // Actualizar las listas
+                            actualizarLista(vista.tablaSoldados);
+                            actualizarListaOperaciones(vista.tablaGestion);
+                        }
+                    }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(vista, "Error al realizar la acción.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }
 
     private void actualizarLista(tablaSoldados tabla) {
-        DefaultTableModel auxiliar = tabla.getTableModelo();
+        DefaultTableModel auxiliar = (DefaultTableModel) tabla.getTableModelo();
         auxiliar.setRowCount(0); // Limpiar la tabla
 
         // Se recorren los soldados y se agregan a la tabla
-        for (Persona soldado : Funciones.getSoldados()) {
-            // Verifica el orden de las columnas en tu tabla
-            // Asegúrate de que el orden aquí coincida con el orden de las columnas
-            auxiliar.addRow(new Object[]{soldado.getNombre(), soldado.getId(), soldado.getRango()});
+        for (Soldado soldado : Funciones.getSoldados()) {
+            auxiliar.addRow(new Object[]{soldado.getNombre(), soldado.getId(), soldado.getRango(), soldado.getMision(), soldado.getCualidad()});
+        }
+    }
+
+    private void actualizarListaOperaciones(tablaGestion tabla) {
+        DefaultTableModel auxiliar = (DefaultTableModel) tabla.getModelo();
+        auxiliar.setRowCount(0); // Limpiar la tabla
+
+        // Se recorren los soldados y se agregan a la tabla
+        for (Soldado soldado : Funciones.getSoldados()) {
+            auxiliar.addRow(new Object[]{soldado.getId(), soldado.getRango(), soldado.getCualidad(),});
         }
     }
 
@@ -156,4 +317,7 @@ public class ControladorM {
         return this.modelo.agregarSoldado(nombre, id);
     }
 
+    public String asignarMision(String id, String mision, String cualidad) {
+        return this.modelo.asignarMision(id, mision, cualidad);
+    }
 }

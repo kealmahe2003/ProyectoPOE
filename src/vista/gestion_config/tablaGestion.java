@@ -12,7 +12,11 @@ import javax.swing.table.DefaultTableModel;
 public class tablaGestion {
 
     private JLabel tituloTablaO = new JLabel("DATOS SOLDADOS");
-    private JTable tableO = new JTable(new DefaultTableModel(new String[]{"Nombre","ID","Rango"}, 0));
+    private DefaultTableModel modelo2 = new DefaultTableModel(
+            new Object[][]{}, // Datos de la tabla
+            new String[]{"ID", "Rango", "Mision"} // Encabezados de columna
+    );
+    private JTable tableO = new JTable(modelo2);
     private JScrollPane tablaGestion = new JScrollPane(tableO);
     private JPanel panelLateralOper = new JPanel();
 
@@ -53,8 +57,16 @@ public class tablaGestion {
         return this.tituloTablaO;
     }
 
+    public JTable getTableO() {
+        return this.tableO;
+    }
+
     public JScrollPane getTablaOperaciones() {
         return this.tablaGestion;
+    }
+
+    public DefaultTableModel getModelo() {
+        return this.modelo2;
     }
 
 

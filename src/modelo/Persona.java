@@ -21,5 +21,12 @@ public interface Persona {
     public void setCualidad(String cualidad);
 
     public String getCualidad();
+    
+    public void asignarMision(String mision);
+
+    public String getMision();
+
+    public void regañado();
+
 
 }
