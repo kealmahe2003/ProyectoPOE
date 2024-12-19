@@ -6,7 +6,8 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import modelo.Funciones;
+import modelo.FuncionesConsola;
+import modelo.FuncionesVisual;
 import modelo.Soldado;
 import vista.gestion_config.tablaGestion;
 import vista.inicio_config.tablaSoldados;
@@ -15,11 +16,11 @@ import vista.vistaGUI;
 public class ControladorM {
 
     private vistaGUI vista;
-    private Funciones modelo;
+    private FuncionesVisual modelo;
 
     public ControladorM() {
         this.vista = new vistaGUI();
-        this.modelo = new Funciones();
+        this.modelo = new FuncionesVisual();
 
         // Registra el ActionListener para el botón
         // Registra el ActionListener para el botón
@@ -294,7 +295,7 @@ public class ControladorM {
         auxiliar.setRowCount(0); // Limpiar la tabla
 
         // Se recorren los soldados y se agregan a la tabla
-        for (Soldado soldado : Funciones.getSoldados()) {
+        for (Soldado soldado : FuncionesConsola.getSoldados()) {
             auxiliar.addRow(new Object[]{soldado.getNombre(), soldado.getId(), soldado.getRango(), soldado.getMision(), soldado.getCualidad()});
         }
     }
@@ -304,7 +305,7 @@ public class ControladorM {
         auxiliar.setRowCount(0); // Limpiar la tabla
 
         // Se recorren los soldados y se agregan a la tabla
-        for (Soldado soldado : Funciones.getSoldados()) {
+        for (Soldado soldado : FuncionesConsola.getSoldados()) {
             auxiliar.addRow(new Object[]{soldado.getId(), soldado.getRango(), soldado.getCualidad(),});
         }
     }

@@ -1,4 +1,5 @@
 import controlador.ControladorM;
+import controlador.ControladorC;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -17,10 +18,11 @@ public class App {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
-        // Instanciar el modelo
-        ControladorM controlador = new ControladorM();
-        
-        // Obtener la vista desde el controlador y hacerla visible
-        controlador.obtenerVistaGui().setVisible(true);
+        // CONTROLADOR CONSOLA
+
+
+        // CONTROLADOR GRAFICO
+        ControladorM controladorVIsual = new ControladorM();
+        controladorVIsual.obtenerVistaGui().setVisible(true);        
     }
     }

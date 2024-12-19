@@ -12,6 +12,8 @@ import vista.gestion_config.botonesGestion;
 import vista.gestion_config.tablaGestion;
 import vista.inicio_config.panelBotones;
 import vista.inicio_config.tablaSoldados;
+import java.util.Scanner;
+
 
 public class vistaGUI extends JFrame {
 
@@ -25,6 +27,8 @@ public class vistaGUI extends JFrame {
     public boolean modificarSoldado = false;
     public JButton btnVerEstado;
     public JButton btnRealizarAccion;
+    public int opcion;
+
 
     //public JTable tablaSoldados = new JTable();
     public JButton btnAsignarMision;
@@ -33,6 +37,8 @@ public class vistaGUI extends JFrame {
 
     //Tabla Operaciones 
     public vistaGUI() {
+
+        Scanner scanner = new Scanner(System.in);
 
         PantallaLabels pantallasDeCarga = new PantallaLabels();
         panelBotones pantallaDeinicio = new panelBotones();
@@ -94,6 +100,8 @@ public class vistaGUI extends JFrame {
         imagenFondo3.setIcon(img2);
 
         // Definicion de botones con sus caracteristicas
+
+
         this.btnAgregar = new JButton("Agregar Soldado");
         this.btnAgregar.setFont(new Font("Arial", Font.PLAIN, 14));
         this.btnAgregar.setBackground(Color.DARK_GRAY);
@@ -313,7 +321,5 @@ public class vistaGUI extends JFrame {
         }
     }
 
-    public void setControlador(ControladorM controlador) {
-
-    }
+    
 }
