@@ -2,10 +2,12 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
 import modelo.FuncionesConsola;
 import modelo.FuncionesVisual;
 import modelo.Soldado;
@@ -69,6 +71,9 @@ public class ControladorM {
                     JOptionPane.showMessageDialog(vista, respuesta);
                     actualizarLista(vista.tablaSoldados);
                     actualizarListaOperaciones(vista.tablaGestion);
+                    vista.graficos.cSoldados++;
+                    vista.graficos.tNoRegañados++;
+                    vista.graficos.actualizarGraficos();
                 }
             }
         });
@@ -106,24 +111,29 @@ public class ControladorM {
                     JOptionPane.showMessageDialog(vista, respuesta);
                     actualizarLista(vista.tablaSoldados);
                     actualizarListaOperaciones(vista.tablaGestion);
+                    vista.graficos.cSoldados--;
+                    switch (nuevoRango) {
+                        case "Coronel" -> vista.graficos.cCoroneles++;
+                        case "Capitán" -> vista.graficos.cCapitanes++;
+                        case "Teniente" -> vista.graficos.cTenientes++;
+                        case "Soldado Raso" -> vista.graficos.cSoldados++;
+                    }
+                    vista.graficos.actualizarGraficos();
                 }
             }
         });
 
-        this.vista.btnEliminar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Solicitar el ID del soldado a eliminar
-                String id = JOptionPane.showInputDialog(vista, "Ingrese el ID del soldado a eliminar:");
-
-                // Llamar al modelo para eliminar el soldado
-                String respuesta = modelo.eliminarSoldado(id);
-
-                // Mostrar un mensaje de confirmación final
-                JOptionPane.showMessageDialog(vista, respuesta);
-                actualizarLista(vista.tablaSoldados);
-                actualizarListaOperaciones(vista.tablaGestion);
-            }
+        this.vista.btnEliminar.addActionListener((ActionEvent e) -> {
+            // Solicitar el ID del soldado a eliminar
+            String id = JOptionPane.showInputDialog(vista, "Ingrese el ID del soldado a eliminar:");
+            
+            // Llamar al modelo para eliminar el soldado
+            String respuesta = modelo.eliminarSoldado(id);
+            
+            // Mostrar un mensaje de confirmación final
+            JOptionPane.showMessageDialog(vista, respuesta);
+            actualizarLista(vista.tablaSoldados);
+            actualizarListaOperaciones(vista.tablaGestion);
         });
 
         this.vista.btnDeshacerCambios.addActionListener(new ActionListener() {
@@ -213,31 +223,28 @@ public class ControladorM {
                             JOptionPane.showMessageDialog(vista, "Soldado no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
                             return;
                         }
-
+        
                         // Verificar el rango del soldado y mostrar las acciones correspondientes
                         String rango = soldado.getRango();
                         JComboBox<String> ingresarAccion;
                         switch (rango) {
-                            case "Soldado Raso" ->
-                                ingresarAccion = new JComboBox<>(new String[]{"Patrullar", "Saludar", "Retirarse"});
-                            case "Teniente" ->
-                                ingresarAccion = new JComboBox<>(new String[]{"Regañar", "Supervisar", "???"});
-                            case "Capitán" ->
-                                ingresarAccion = new JComboBox<>(new String[]{"Regañar", "Sondear", "Misión"});
-                            case "Coronel" ->
-                                ingresarAccion = new JComboBox<>(new String[]{"Saludar", "Regañar", "Desfile", "Premio o Castigo"});
+                            case "Soldado Raso" -> ingresarAccion = new JComboBox<>(new String[]{"Patrullar", "Saludar", "Retirarse"});
+                            case "Teniente" -> ingresarAccion = new JComboBox<>(new String[]{"Regañar", "Supervisar", "???"});
+                            case "Capitán" -> ingresarAccion = new JComboBox<>(new String[]{"Regañar", "Sondear", "Misión"});
+                            case "Coronel" -> ingresarAccion = new JComboBox<>(new String[]{"Saludar", "Regañar", "Desfile", "Premio o Castigo"});
                             default -> {
                                 JOptionPane.showMessageDialog(vista, "Rango no reconocido.", "Error", JOptionPane.ERROR_MESSAGE);
                                 return;
                             }
                         }
-                        boolean enviar = true;
+        
                         Object[] message = {"Accion a realizar:", ingresarAccion};
                         int option = JOptionPane.showConfirmDialog(vista, message, "Realizar accion", JOptionPane.OK_CANCEL_OPTION);
-                        if (option == JOptionPane.OK_OPTION && enviar==true) {
+                        if (option == JOptionPane.OK_OPTION) {
                             // Obtener la acción seleccionada
                             String accion = ingresarAccion.getSelectedItem().toString();
-                            // Manejar la acción de "Mision" para el Capitán
+        
+                            // Manejar la acción de "Misión" para el Capitán
                             if ("Misión".equals(accion) && "Capitán".equals(rango)) {
                                 JTextField objetivoField = new JTextField();
                                 JTextField estrategiaField = new JTextField();
@@ -257,25 +264,18 @@ public class ControladorM {
                                 } else {
                                     return;
                                 }
-                            } // Manejar la acción de "Sondear" para el Capitán
-                            else if ("Sondear".equals(accion) && "Capitán".equals(rango)) {
-                                // Aquí puedes agregar cualquier lógica adicional si es necesario
-                                accion = "Sondear";
-                            } // Manejar la acción de "Regañar" para el Capitán
-                            else if ("Regañar".equals(accion) && "Capitán".equals(rango)) {
+                            } else if ("Regañar".equals(accion) && ("Capitán".equals(rango) || "Teniente".equals(rango) || "Coronel".equals(rango))) {
                                 String idSoldado = JOptionPane.showInputDialog(vista, "Ingrese el ID del soldado a regañar:").trim();
                                 if (idSoldado == null || idSoldado.isEmpty()) {
                                     JOptionPane.showMessageDialog(vista, "Debe ingresar el ID del soldado a regañar.", "Error", JOptionPane.ERROR_MESSAGE);
                                     return;
                                 }
                                 accion = "Regañar:" + idSoldado;
-
-                            }else {
-                                return;
                             }
+        
                             // Llamar al modelo para realizar la acción del soldado
                             String respuesta = modelo.realizarAccion(id, accion);
-                            enviar = false;
+        
                             // Mostrar un mensaje de confirmación final
                             JOptionPane.showMessageDialog(vista, respuesta);
                             // Actualizar las listas
@@ -291,6 +291,7 @@ public class ControladorM {
     }
 
     private void actualizarLista(tablaSoldados tabla) {
+        System.out.println("ayuda");
         DefaultTableModel auxiliar = (DefaultTableModel) tabla.getTableModelo();
         auxiliar.setRowCount(0); // Limpiar la tabla
 
@@ -298,6 +299,7 @@ public class ControladorM {
         for (Soldado soldado : FuncionesConsola.getSoldados()) {
             auxiliar.addRow(new Object[]{soldado.getNombre(), soldado.getId(), soldado.getRango(), soldado.getMision(), soldado.getCualidad()});
         }
+    
     }
 
     private void actualizarListaOperaciones(tablaGestion tabla) {

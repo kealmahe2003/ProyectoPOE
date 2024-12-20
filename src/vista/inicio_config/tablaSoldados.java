@@ -2,6 +2,7 @@ package vista.inicio_config;
 
 import java.awt.Color;
 import java.awt.Font;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -18,7 +19,7 @@ public class tablaSoldados {
     );
     private JTable table = new JTable(modelo);
     private JScrollPane tablaDeSoldados = new JScrollPane(table);
-    private JPanel panelLateral = new JPanel();
+    public static JPanel panelLateral = new JPanel();
 
     public tablaSoldados() {
         this.mostrarTituloTabla();
