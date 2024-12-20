@@ -212,10 +212,12 @@ public class ControladorC {
     
 
     private void abrirInterfazGrafica() {
-        // Hacer visible la interfaz gráfica
+        // Pasar a usar la interfaz grafica
         if (vista != null) {
-            vista.setVisible(true); // Muestra el JFrame si aún no está visible
-            System.out.println("Interfaz gráfica abierta.");
+            ControladorM controladorVisual = new ControladorM();
+            controladorVisual.obtenerVistaGui().setVisible(true);
+            actualizarLista(vista.tablaSoldados);
+            actualizarListaOperaciones(vista.tablaGestion);
         } else {
             System.out.println("Error: No se pudo abrir la interfaz gráfica.");
         }
