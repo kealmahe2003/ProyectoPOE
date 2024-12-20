@@ -149,6 +149,16 @@ public class ControladorM {
             }
         });
 
+        this.vista.btnConsola.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // cerrar ventana y usar consola
+                vista.setVisible(false);
+                ControladorC controlador = new ControladorC();
+                controlador.iniciar();
+            }
+        });
+
         this.vista.btnAsignarMision.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

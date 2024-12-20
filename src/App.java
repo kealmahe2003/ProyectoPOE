@@ -1,5 +1,6 @@
 import controlador.ControladorM;
 import controlador.ControladorC;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -18,11 +19,19 @@ public class App {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
-        // CONTROLADOR CONSOLA
 
 
-        // CONTROLADOR GRAFICO
-        ControladorM controladorVIsual = new ControladorM();
-        controladorVIsual.obtenerVistaGui().setVisible(true);        
-    }
-    }
+        // Elegir entre consola o interfaz grafica
+        int opcion = JOptionPane.showOptionDialog(null, "¿Desea ejecutar el programa en consola o en interfaz grafica?", "Elegir modo de ejecucion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Consola", "Interfaz Grafica"}, "Interfaz Grafica");
+        if (opcion == JOptionPane.YES_OPTION) {
+            // CONTROLADOR CONSOLA
+            ControladorC controlador = new ControladorC();
+            controlador.iniciar();
+        } else {
+            // CONTROLADOR INTERFAZ GRAFICA
+            ControladorM controladorVIsual = new ControladorM();
+            controladorVIsual.obtenerVistaGui().setVisible(true);
+        }
+    }   
+       
+}

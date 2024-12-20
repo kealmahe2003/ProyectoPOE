@@ -42,6 +42,7 @@ public class vistaGUI extends JFrame {
     public JButton btnDeshacerCambios;
     public JButton btnCambiarGraficos;
     public JButton btnDesGraficos;
+    public JButton btnConsola;
     public JTextField txtNombre = new JTextField();
     public JTextField txtID = new JTextField();
     public boolean guardarSoldado = false;
@@ -169,7 +170,7 @@ public class vistaGUI extends JFrame {
         btnGestionar.setHorizontalAlignment(SwingConstants.CENTER);
 
         this.btnDeshacerCambios = new JButton("Deshacer Cambios");
-        this.btnDeshacerCambios.setBounds(800, 570, 150, 30);
+        this.btnDeshacerCambios.setBounds(990, 570, 150, 30);
         this.btnDeshacerCambios.setFont(new Font("Arial", Font.PLAIN, 14));
         this.btnDeshacerCambios.setBackground(Color.DARK_GRAY);
         this.btnDeshacerCambios.setForeground(Color.white);
@@ -177,7 +178,7 @@ public class vistaGUI extends JFrame {
         this.btnDeshacerCambios.setHorizontalAlignment(SwingConstants.CENTER);
 
         this.btnCambiarGraficos = new JButton("Cambiar Graficos");
-        this.btnCambiarGraficos.setBounds(600, 570, 150, 30);
+        this.btnCambiarGraficos.setBounds(700, 570, 150, 30);
         this.btnCambiarGraficos.setFont(new Font("Arial", Font.PLAIN, 14));
         this.btnCambiarGraficos.setBackground(Color.DARK_GRAY);
         this.btnCambiarGraficos.setForeground(Color.white);
@@ -192,6 +193,14 @@ public class vistaGUI extends JFrame {
         this.btnDesGraficos.setBorder(null);
         this.btnDesGraficos.setHorizontalAlignment(SwingConstants.CENTER);
         this.btnDesGraficos.setVisible(false);
+
+        this.btnConsola = new JButton("Usar consola");
+        this.btnConsola.setBounds(400, 570, 150, 30);
+        this.btnConsola.setFont(new Font("Arial", Font.PLAIN, 14));
+        this.btnConsola.setBackground(Color.DARK_GRAY);
+        this.btnConsola.setForeground(Color.white);
+        this.btnConsola.setBorder(null);
+        this.btnConsola.setHorizontalAlignment(SwingConstants.CENTER);
 
         // Se agregan los botones al panel de botones
         panelBotones.add(btnAgregar);
@@ -215,6 +224,7 @@ public class vistaGUI extends JFrame {
         panelFondo.add(btnDeshacerCambios);
         panelFondo.add(btnCambiarGraficos);
         panelFondo.add(btnDesGraficos);
+        panelFondo.add(btnConsola);
         panelFondo.add(imagenFondo1);
         popupMenu.add(cambiarFondo);
         popupMenu.add(cambiarColorBotones);
@@ -347,7 +357,7 @@ public class vistaGUI extends JFrame {
         // Iteracion para aplicar a todos los botones
 
         botones = new JButton[]{btnAgregar, btnAsignarMision, btnDeshacerCambios, btnEliminar, btnGestionar, 
-            btnSalir, btnModificar, btnVerEstado, btnRealizarAccion, btnCambiarGraficos, btnDesGraficos};
+            btnSalir, btnModificar, btnVerEstado, btnRealizarAccion, btnCambiarGraficos, btnDesGraficos, btnConsola};
 
         for (JButton boton : botones) {
             hoverBotones(boton);
