@@ -2,6 +2,7 @@ package vista.gestion_config;
 
 import java.awt.Color;
 import java.awt.Font;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -18,7 +19,7 @@ public class tablaGestion {
     );
     private JTable tableO = new JTable(modelo2);
     private JScrollPane tablaGestion = new JScrollPane(tableO);
-    private JPanel panelLateralOper = new JPanel();
+    public static JPanel panelLateralOper = new JPanel();
 
     public tablaGestion() {
         this.mostrarTituloOperaciones();

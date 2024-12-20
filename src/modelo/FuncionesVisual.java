@@ -8,7 +8,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JOptionPane;
+
+import vista.vistaGUI;
 import static vista.vistaGUI.sonido;
 
 public class FuncionesVisual {
@@ -17,6 +20,8 @@ public class FuncionesVisual {
     static List<Soldado> soldados = new ArrayList<>();
 
     static List<Soldado> soldadosBackup = new ArrayList<>();
+
+    private vistaGUI vista;
 
     // Lista de operaciones
     public FuncionesVisual() {
@@ -38,7 +43,6 @@ public class FuncionesVisual {
         // Se crea el nuevo soldado y se almacena en el arrayList soldados
         SoldadoRaso raso = new SoldadoRaso(nombre, id);
         soldados.add(raso);
-        // Al final del proceso se actualiza la lista de soldados
 
         return "Soldado agregado correctamente.";
 
@@ -77,6 +81,13 @@ public class FuncionesVisual {
             }
 
             soldados.remove(soldado); // Se elimina el soldado de la lista de soldados
+            String rango = soldado.getRango();
+            switch (rango) {
+                case "Teniente" -> { vista.graficos.cTenientes -= 1; }
+                case "Capitán" -> { vista.graficos.cCapitanes -= 1; }
+                case "Coronel" -> { vista.graficos.cCoroneles -= 1; }
+                case "Soldado Raso" -> { vista.graficos.cSoldados -= 1; }
+            }
             return "Soldado eliminado correctamente.";
         } catch (Exception e) {
             return "Error al eliminar el soldado.";

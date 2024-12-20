@@ -1,7 +1,10 @@
 {
-    "java.project.sourcePaths": ["src"],
+    "java.project.sourcePaths": [
+        "src"
+    ],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
-        "lib/**/*.jar"
+        "c:\\Users\\juanw\\Desktop\\Proyecto 3\\libs\\jcommon-1.0.24.jar",
+        "c:\\Users\\juanw\\Desktop\\Proyecto 3\\libs\\jfreechart-1.5.0.jar"
     ]
 }
